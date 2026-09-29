@@ -1,13 +1,12 @@
-package ai0929;
+package ai0929.exception;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ThrowsTest1 {
-    public static void main(String[] args) {
-        try {
+public class ThrowsTest2 {
+    public static void main(String[] args) throws IOException{
+
             BufferedReader br = new BufferedReader(new FileReader("myData1.txt.txt"));
 
 
@@ -21,10 +20,7 @@ public class ThrowsTest1 {
             }
 
 
-        } catch (FileNotFoundException e) {
-            System.out.println("파일을 찾을 수 없습니다.");
-        } catch (IOException e) {
-            System.out.println("한줄 읽어올 때 문제가 발생했습니다.");
-        }
+
+
     }
 }
