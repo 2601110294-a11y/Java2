@@ -13,10 +13,45 @@ public class MenuTest extends JFrame {
     JTextArea textArea = new JTextArea();
     JFileChooser fileChooser = new JFileChooser();
 
+    String[] iconFileNames = {"first", "new", "second"};
+    Color[] colorNames = {Color.WHITE, Color.BLUE, Color.MAGENTA};
+    JButton[] btns = new JButton[6];
+
     public MenuTest() {
-        JScrollPane scrollPane = new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(
+                textArea,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         add(scrollPane);
 
+        JToolBar toolBar = new JToolBar();
+        add("North", toolBar);
+
+        String[] commands = {
+                "New", "Open", "Close",
+                "White", "Blue", "Magenta"
+        };
+
+        for (int i = 0; i < btns.length; i++) {
+            if (i < 3) {
+                btns[i] = new JButton(
+                        new ImageIcon("toolbar/" + iconFileNames[i] + ".png"));
+                btns[i].addActionListener(fileListener);
+            } else {
+                btns[i] = new JButton("");
+                btns[i].setBackground(colorNames[i - 3]);
+                btns[i].setOpaque(true);
+                btns[i].addActionListener(backgroundListener);
+            }
+
+            btns[i].setActionCommand(commands[i]);
+
+            btns[i].setPreferredSize(new Dimension(50, 50));
+            btns[i].setMinimumSize(new Dimension(50, 50));
+            btns[i].setMaximumSize(new Dimension(50, 50));
+
+            toolBar.add(btns[i]);
+        }
 
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -115,7 +150,7 @@ public class MenuTest extends JFrame {
             br.close();
 
         } catch (FileNotFoundException e) {
-            textArea.setText("File not found");
+            return "File not found";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
