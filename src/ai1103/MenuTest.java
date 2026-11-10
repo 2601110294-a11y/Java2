@@ -64,10 +64,12 @@ public class MenuTest extends JFrame {
 
         JMenuItem newMenuItem = new JMenuItem("New");
         JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem saveMenuItem = new JMenuItem("Save"); // 추가
         JMenuItem closeMenuItem = new JMenuItem("Close");
 
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem); // 추가
         fileMenu.add(closeMenuItem);
 
         JMenuItem whiteMenuItem = new JMenuItem("White");
@@ -80,6 +82,7 @@ public class MenuTest extends JFrame {
 
         newMenuItem.addActionListener(fileListener);
         openMenuItem.addActionListener(fileListener);
+        saveMenuItem.addActionListener(fileListener); // 추가
         closeMenuItem.addActionListener(fileListener);
 
         whiteMenuItem.addActionListener(backgroundListener);
@@ -104,6 +107,15 @@ public class MenuTest extends JFrame {
                             == JFileChooser.APPROVE_OPTION) {
                         selectedFile = fileChooser.getSelectedFile();
                         textArea.setText(readFile(selectedFile));
+                    }
+                    break;
+
+                // Save 기능 추가
+                case "Save":
+                    if (fileChooser.showSaveDialog(MenuTest.this)
+                            == JFileChooser.APPROVE_OPTION) {
+                        selectedFile = fileChooser.getSelectedFile();
+                        saveFile(selectedFile);
                     }
                     break;
 
@@ -156,6 +168,20 @@ public class MenuTest extends JFrame {
         }
 
         return totalLines;
+    }
+
+    // Save 파일 저장 기능 추가
+    public void saveFile(File selectedFile) {
+        try {
+            FileWriter fw = new FileWriter(selectedFile);
+            fw.write(textArea.getText());
+            fw.close();
+
+            JOptionPane.showMessageDialog(this, "파일 저장 완료");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "파일 저장 실패");
+        }
     }
 
     public static void main(String[] args) {
